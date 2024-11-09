@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px theme('colors.purple.500'),
+                0 0 30px theme('colors.purple.400'),
+                0 0 45px theme('colors.purple.300');
+  }
+  50% {
+    box-shadow: 0 0 20px theme('colors.indigo.500'),
+                0 0 40px theme('colors.indigo.400'),
+                0 0 60px theme('colors.indigo.300');
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes magicEffect {
+  0% {
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+  50% {
+    filter: brightness(1.5) saturate(1.5);
+    transform: scale(1.02);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+}
+
+:root {
+  --gradient-start: #000000;
+  --gradient-middle: #4a148c;
+  --gradient-end: #1a237e;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, 
+    var(--gradient-start) 0%,
+    var(--gradient-middle) 50%,
+    var(--gradient-end) 100%);
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+  min-height: 100vh;
+  margin: 0;
+  direction: rtl;
+}
+
+.loading-screen {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black;
+  animation: fadeOut 0.5s ease-out 3s forwards;
+}
+
+.loading-content {
+  @apply text-center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.loading-spinner {
+  @apply w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full;
+  animation: spin 1s linear infinite;
+}
+
+.dropzone {
+  @apply border-2 border-dashed border-purple-300 relative overflow-hidden;
+  transition: all 0.3s ease;
+}
+
+.dropzone::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-purple-500/10 to-indigo-500/10;
+  animation: glowPulse 3s infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dropzone:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  @apply bg-purple-600 text-white font-semibold py-2 px-6 rounded-lg relative
+         overflow-hidden transition-all duration-300 ease-in-out transform 
+         hover:scale-105 focus:outline-none disabled:opacity-50 
+         disabled:cursor-not-allowed disabled:hover:scale-100;
+}
+
+.btn-primary::before {
+  content: '';
+  @apply absolute inset-0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg relative
+         overflow-hidden transition-all duration-300 ease-in-out transform 
+         hover:scale-105 focus:outline-none;
+}
+
+.input-text {
+  @apply w-full px-4 py-2 text-gray-700 bg-black/20 border border-purple-500/30 
+         rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 
+         focus:border-transparent transition-all duration-300 text-white;
+}
+
+.magic-transition {
+  animation: magicEffect 1s ease-out;
+}
+
+.canvas-container {
+  @apply relative border-2 border-purple-500/30 rounded-lg overflow-hidden;
+  animation: glowPulse 3s infinite;
+  aspect-ratio: 1;
+}
+
+.canvas-tools {
+  @apply absolute top-4 right-4 bg-black/70 rounded-lg p-2 flex gap-2 z-10;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
